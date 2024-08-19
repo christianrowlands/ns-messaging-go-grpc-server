@@ -32,9 +32,11 @@ const (
 	WirelessSurvey_StreamUmtsSurvey_FullMethodName             = "/com.craxiom.messaging.grpc.WirelessSurvey/StreamUmtsSurvey"
 	WirelessSurvey_StreamLteSurvey_FullMethodName              = "/com.craxiom.messaging.grpc.WirelessSurvey/StreamLteSurvey"
 	WirelessSurvey_StreamNrSurvey_FullMethodName               = "/com.craxiom.messaging.grpc.WirelessSurvey/StreamNrSurvey"
+	WirelessSurvey_StreamPhoneState_FullMethodName             = "/com.craxiom.messaging.grpc.WirelessSurvey/StreamPhoneState"
 	WirelessSurvey_StreamWifiBeaconSurvey_FullMethodName       = "/com.craxiom.messaging.grpc.WirelessSurvey/StreamWifiBeaconSurvey"
 	WirelessSurvey_StreamWifiProbeRequestSurvey_FullMethodName = "/com.craxiom.messaging.grpc.WirelessSurvey/StreamWifiProbeRequestSurvey"
 	WirelessSurvey_StreamWifiOtaSurvey_FullMethodName          = "/com.craxiom.messaging.grpc.WirelessSurvey/StreamWifiOtaSurvey"
+	WirelessSurvey_StreamBluetoothSurvey_FullMethodName        = "/com.craxiom.messaging.grpc.WirelessSurvey/StreamBluetoothSurvey"
 	WirelessSurvey_StreamGnssSurvey_FullMethodName             = "/com.craxiom.messaging.grpc.WirelessSurvey/StreamGnssSurvey"
 	WirelessSurvey_StreamEnergyDetections_FullMethodName       = "/com.craxiom.messaging.grpc.WirelessSurvey/StreamEnergyDetections"
 	WirelessSurvey_StreamSignalDetections_FullMethodName       = "/com.craxiom.messaging.grpc.WirelessSurvey/StreamSignalDetections"
@@ -51,9 +53,11 @@ type WirelessSurveyClient interface {
 	StreamUmtsSurvey(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[UmtsRecord, UmtsSurveyResponse], error)
 	StreamLteSurvey(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[LteRecord, LteSurveyResponse], error)
 	StreamNrSurvey(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[NrRecord, NrSurveyResponse], error)
+	StreamPhoneState(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[PhoneState, PhoneStateResponse], error)
 	StreamWifiBeaconSurvey(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[WifiBeaconRecord, WifiBeaconSurveyResponse], error)
 	StreamWifiProbeRequestSurvey(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[WifiProbeRequestRecord, WifiProbeRequestSurveyResponse], error)
 	StreamWifiOtaSurvey(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[WifiOtaRecord, WifiOtaSurveyResponse], error)
+	StreamBluetoothSurvey(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[BluetoothRecord, BluetoothSurveyResponse], error)
 	StreamGnssSurvey(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[GnssRecord, GnssSurveyResponse], error)
 	StreamEnergyDetections(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[EnergyDetection, EnergyDetectionResponse], error)
 	StreamSignalDetections(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[SignalDetection, SignalDetectionResponse], error)
@@ -134,9 +138,22 @@ func (c *wirelessSurveyClient) StreamNrSurvey(ctx context.Context, opts ...grpc.
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type WirelessSurvey_StreamNrSurveyClient = grpc.ClientStreamingClient[NrRecord, NrSurveyResponse]
 
+func (c *wirelessSurveyClient) StreamPhoneState(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[PhoneState, PhoneStateResponse], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &WirelessSurvey_ServiceDesc.Streams[5], WirelessSurvey_StreamPhoneState_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[PhoneState, PhoneStateResponse]{ClientStream: stream}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type WirelessSurvey_StreamPhoneStateClient = grpc.ClientStreamingClient[PhoneState, PhoneStateResponse]
+
 func (c *wirelessSurveyClient) StreamWifiBeaconSurvey(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[WifiBeaconRecord, WifiBeaconSurveyResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &WirelessSurvey_ServiceDesc.Streams[5], WirelessSurvey_StreamWifiBeaconSurvey_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &WirelessSurvey_ServiceDesc.Streams[6], WirelessSurvey_StreamWifiBeaconSurvey_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -149,7 +166,7 @@ type WirelessSurvey_StreamWifiBeaconSurveyClient = grpc.ClientStreamingClient[Wi
 
 func (c *wirelessSurveyClient) StreamWifiProbeRequestSurvey(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[WifiProbeRequestRecord, WifiProbeRequestSurveyResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &WirelessSurvey_ServiceDesc.Streams[6], WirelessSurvey_StreamWifiProbeRequestSurvey_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &WirelessSurvey_ServiceDesc.Streams[7], WirelessSurvey_StreamWifiProbeRequestSurvey_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -162,7 +179,7 @@ type WirelessSurvey_StreamWifiProbeRequestSurveyClient = grpc.ClientStreamingCli
 
 func (c *wirelessSurveyClient) StreamWifiOtaSurvey(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[WifiOtaRecord, WifiOtaSurveyResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &WirelessSurvey_ServiceDesc.Streams[7], WirelessSurvey_StreamWifiOtaSurvey_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &WirelessSurvey_ServiceDesc.Streams[8], WirelessSurvey_StreamWifiOtaSurvey_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -173,9 +190,22 @@ func (c *wirelessSurveyClient) StreamWifiOtaSurvey(ctx context.Context, opts ...
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type WirelessSurvey_StreamWifiOtaSurveyClient = grpc.ClientStreamingClient[WifiOtaRecord, WifiOtaSurveyResponse]
 
+func (c *wirelessSurveyClient) StreamBluetoothSurvey(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[BluetoothRecord, BluetoothSurveyResponse], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &WirelessSurvey_ServiceDesc.Streams[9], WirelessSurvey_StreamBluetoothSurvey_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[BluetoothRecord, BluetoothSurveyResponse]{ClientStream: stream}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type WirelessSurvey_StreamBluetoothSurveyClient = grpc.ClientStreamingClient[BluetoothRecord, BluetoothSurveyResponse]
+
 func (c *wirelessSurveyClient) StreamGnssSurvey(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[GnssRecord, GnssSurveyResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &WirelessSurvey_ServiceDesc.Streams[8], WirelessSurvey_StreamGnssSurvey_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &WirelessSurvey_ServiceDesc.Streams[10], WirelessSurvey_StreamGnssSurvey_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -188,7 +218,7 @@ type WirelessSurvey_StreamGnssSurveyClient = grpc.ClientStreamingClient[GnssReco
 
 func (c *wirelessSurveyClient) StreamEnergyDetections(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[EnergyDetection, EnergyDetectionResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &WirelessSurvey_ServiceDesc.Streams[9], WirelessSurvey_StreamEnergyDetections_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &WirelessSurvey_ServiceDesc.Streams[11], WirelessSurvey_StreamEnergyDetections_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -201,7 +231,7 @@ type WirelessSurvey_StreamEnergyDetectionsClient = grpc.ClientStreamingClient[En
 
 func (c *wirelessSurveyClient) StreamSignalDetections(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[SignalDetection, SignalDetectionResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &WirelessSurvey_ServiceDesc.Streams[10], WirelessSurvey_StreamSignalDetections_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &WirelessSurvey_ServiceDesc.Streams[12], WirelessSurvey_StreamSignalDetections_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -214,7 +244,7 @@ type WirelessSurvey_StreamSignalDetectionsClient = grpc.ClientStreamingClient[Si
 
 func (c *wirelessSurveyClient) StreamLteRrc(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[LteRrc, LteRrcResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &WirelessSurvey_ServiceDesc.Streams[11], WirelessSurvey_StreamLteRrc_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &WirelessSurvey_ServiceDesc.Streams[13], WirelessSurvey_StreamLteRrc_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -227,7 +257,7 @@ type WirelessSurvey_StreamLteRrcClient = grpc.ClientStreamingClient[LteRrc, LteR
 
 func (c *wirelessSurveyClient) StreamLteNas(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[LteNas, LteNasResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &WirelessSurvey_ServiceDesc.Streams[12], WirelessSurvey_StreamLteNas_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &WirelessSurvey_ServiceDesc.Streams[14], WirelessSurvey_StreamLteNas_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -247,9 +277,11 @@ type WirelessSurveyServer interface {
 	StreamUmtsSurvey(grpc.ClientStreamingServer[UmtsRecord, UmtsSurveyResponse]) error
 	StreamLteSurvey(grpc.ClientStreamingServer[LteRecord, LteSurveyResponse]) error
 	StreamNrSurvey(grpc.ClientStreamingServer[NrRecord, NrSurveyResponse]) error
+	StreamPhoneState(grpc.ClientStreamingServer[PhoneState, PhoneStateResponse]) error
 	StreamWifiBeaconSurvey(grpc.ClientStreamingServer[WifiBeaconRecord, WifiBeaconSurveyResponse]) error
 	StreamWifiProbeRequestSurvey(grpc.ClientStreamingServer[WifiProbeRequestRecord, WifiProbeRequestSurveyResponse]) error
 	StreamWifiOtaSurvey(grpc.ClientStreamingServer[WifiOtaRecord, WifiOtaSurveyResponse]) error
+	StreamBluetoothSurvey(grpc.ClientStreamingServer[BluetoothRecord, BluetoothSurveyResponse]) error
 	StreamGnssSurvey(grpc.ClientStreamingServer[GnssRecord, GnssSurveyResponse]) error
 	StreamEnergyDetections(grpc.ClientStreamingServer[EnergyDetection, EnergyDetectionResponse]) error
 	StreamSignalDetections(grpc.ClientStreamingServer[SignalDetection, SignalDetectionResponse]) error
@@ -280,6 +312,9 @@ func (UnimplementedWirelessSurveyServer) StreamLteSurvey(grpc.ClientStreamingSer
 func (UnimplementedWirelessSurveyServer) StreamNrSurvey(grpc.ClientStreamingServer[NrRecord, NrSurveyResponse]) error {
 	return status.Errorf(codes.Unimplemented, "method StreamNrSurvey not implemented")
 }
+func (UnimplementedWirelessSurveyServer) StreamPhoneState(grpc.ClientStreamingServer[PhoneState, PhoneStateResponse]) error {
+	return status.Errorf(codes.Unimplemented, "method StreamPhoneState not implemented")
+}
 func (UnimplementedWirelessSurveyServer) StreamWifiBeaconSurvey(grpc.ClientStreamingServer[WifiBeaconRecord, WifiBeaconSurveyResponse]) error {
 	return status.Errorf(codes.Unimplemented, "method StreamWifiBeaconSurvey not implemented")
 }
@@ -288,6 +323,9 @@ func (UnimplementedWirelessSurveyServer) StreamWifiProbeRequestSurvey(grpc.Clien
 }
 func (UnimplementedWirelessSurveyServer) StreamWifiOtaSurvey(grpc.ClientStreamingServer[WifiOtaRecord, WifiOtaSurveyResponse]) error {
 	return status.Errorf(codes.Unimplemented, "method StreamWifiOtaSurvey not implemented")
+}
+func (UnimplementedWirelessSurveyServer) StreamBluetoothSurvey(grpc.ClientStreamingServer[BluetoothRecord, BluetoothSurveyResponse]) error {
+	return status.Errorf(codes.Unimplemented, "method StreamBluetoothSurvey not implemented")
 }
 func (UnimplementedWirelessSurveyServer) StreamGnssSurvey(grpc.ClientStreamingServer[GnssRecord, GnssSurveyResponse]) error {
 	return status.Errorf(codes.Unimplemented, "method StreamGnssSurvey not implemented")
@@ -360,6 +398,13 @@ func _WirelessSurvey_StreamNrSurvey_Handler(srv interface{}, stream grpc.ServerS
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type WirelessSurvey_StreamNrSurveyServer = grpc.ClientStreamingServer[NrRecord, NrSurveyResponse]
 
+func _WirelessSurvey_StreamPhoneState_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(WirelessSurveyServer).StreamPhoneState(&grpc.GenericServerStream[PhoneState, PhoneStateResponse]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type WirelessSurvey_StreamPhoneStateServer = grpc.ClientStreamingServer[PhoneState, PhoneStateResponse]
+
 func _WirelessSurvey_StreamWifiBeaconSurvey_Handler(srv interface{}, stream grpc.ServerStream) error {
 	return srv.(WirelessSurveyServer).StreamWifiBeaconSurvey(&grpc.GenericServerStream[WifiBeaconRecord, WifiBeaconSurveyResponse]{ServerStream: stream})
 }
@@ -380,6 +425,13 @@ func _WirelessSurvey_StreamWifiOtaSurvey_Handler(srv interface{}, stream grpc.Se
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type WirelessSurvey_StreamWifiOtaSurveyServer = grpc.ClientStreamingServer[WifiOtaRecord, WifiOtaSurveyResponse]
+
+func _WirelessSurvey_StreamBluetoothSurvey_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(WirelessSurveyServer).StreamBluetoothSurvey(&grpc.GenericServerStream[BluetoothRecord, BluetoothSurveyResponse]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type WirelessSurvey_StreamBluetoothSurveyServer = grpc.ClientStreamingServer[BluetoothRecord, BluetoothSurveyResponse]
 
 func _WirelessSurvey_StreamGnssSurvey_Handler(srv interface{}, stream grpc.ServerStream) error {
 	return srv.(WirelessSurveyServer).StreamGnssSurvey(&grpc.GenericServerStream[GnssRecord, GnssSurveyResponse]{ServerStream: stream})
@@ -450,6 +502,11 @@ var WirelessSurvey_ServiceDesc = grpc.ServiceDesc{
 			ClientStreams: true,
 		},
 		{
+			StreamName:    "StreamPhoneState",
+			Handler:       _WirelessSurvey_StreamPhoneState_Handler,
+			ClientStreams: true,
+		},
+		{
 			StreamName:    "StreamWifiBeaconSurvey",
 			Handler:       _WirelessSurvey_StreamWifiBeaconSurvey_Handler,
 			ClientStreams: true,
@@ -462,6 +519,11 @@ var WirelessSurvey_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "StreamWifiOtaSurvey",
 			Handler:       _WirelessSurvey_StreamWifiOtaSurvey_Handler,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "StreamBluetoothSurvey",
+			Handler:       _WirelessSurvey_StreamBluetoothSurvey_Handler,
 			ClientStreams: true,
 		},
 		{

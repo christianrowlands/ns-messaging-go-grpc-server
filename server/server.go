@@ -26,7 +26,9 @@ func (s *WirelessSurveyServer) StreamGsmSurvey(stream pb.WirelessSurvey_StreamGs
 	for {
 		record, err := stream.Recv()
 		if err != nil {
-			log.Error().Err(err).Msg("Error receiving GSM record")
+			if err.Error() != "EOF" {
+				log.Error().Err(err).Msg("Error receiving GSM record")
+			}
 			return err
 		}
 		log.Info().Msgf("Received GSM record: %v", record)
@@ -39,7 +41,9 @@ func (s *WirelessSurveyServer) StreamCdmaSurvey(stream pb.WirelessSurvey_StreamC
 	for {
 		record, err := stream.Recv()
 		if err != nil {
-			log.Error().Err(err).Msg("Error receiving CDMA record")
+			if err.Error() != "EOF" {
+				log.Error().Err(err).Msg("Error receiving CDMA record")
+			}
 			return err
 		}
 		log.Info().Msgf("Received CDMA record: %v", record)
@@ -52,7 +56,9 @@ func (s *WirelessSurveyServer) StreamUmtsSurvey(stream pb.WirelessSurvey_StreamU
 	for {
 		record, err := stream.Recv()
 		if err != nil {
-			log.Error().Err(err).Msg("Error receiving UMTS record")
+			if err.Error() != "EOF" {
+				log.Error().Err(err).Msg("Error receiving UMTS record")
+			}
 			return err
 		}
 		log.Info().Msgf("Received UMTS record: %v", record)
@@ -65,7 +71,9 @@ func (s *WirelessSurveyServer) StreamLteSurvey(stream pb.WirelessSurvey_StreamLt
 	for {
 		record, err := stream.Recv()
 		if err != nil {
-			log.Error().Err(err).Msg("Error receiving LTE record")
+			if err.Error() != "EOF" {
+				log.Error().Err(err).Msg("Error receiving LTE record")
+			}
 			return err
 		}
 		log.Info().Msgf("Received LTE record: %v", record)
@@ -78,10 +86,27 @@ func (s *WirelessSurveyServer) StreamNrSurvey(stream pb.WirelessSurvey_StreamNrS
 	for {
 		record, err := stream.Recv()
 		if err != nil {
-			log.Error().Err(err).Msg("Error receiving NR record")
+			if err.Error() != "EOF" {
+				log.Error().Err(err).Msg("Error receiving NR record")
+			}
 			return err
 		}
 		log.Info().Msgf("Received NR record: %v", record)
+		// Process the record as needed
+	}
+}
+
+// StreamPhoneState handles streaming of phone state records
+func (s *WirelessSurveyServer) StreamPhoneState(stream pb.WirelessSurvey_StreamPhoneStateServer) error {
+	for {
+		record, err := stream.Recv()
+		if err != nil {
+			if err.Error() != "EOF" {
+				log.Error().Err(err).Msg("Error receiving Phone State record")
+			}
+			return err
+		}
+		log.Info().Msgf("Received Phone State record: %v", record)
 		// Process the record as needed
 	}
 }
@@ -91,7 +116,9 @@ func (s *WirelessSurveyServer) StreamWifiBeaconSurvey(stream pb.WirelessSurvey_S
 	for {
 		record, err := stream.Recv()
 		if err != nil {
-			log.Error().Err(err).Msg("Error receiving WiFi Beacon record")
+			if err.Error() != "EOF" {
+				log.Error().Err(err).Msg("Error receiving WiFi Beacon record")
+			}
 			return err
 		}
 		log.Info().Msgf("Received WiFi Beacon record: %v", record)
@@ -104,7 +131,9 @@ func (s *WirelessSurveyServer) StreamWifiProbeRequestSurvey(stream pb.WirelessSu
 	for {
 		record, err := stream.Recv()
 		if err != nil {
-			log.Error().Err(err).Msg("Error receiving WiFi Probe Request record")
+			if err.Error() != "EOF" {
+				log.Error().Err(err).Msg("Error receiving WiFi Probe Request record")
+			}
 			return err
 		}
 		log.Info().Msgf("Received WiFi Probe Request record: %v", record)
@@ -117,10 +146,27 @@ func (s *WirelessSurveyServer) StreamWifiOtaSurvey(stream pb.WirelessSurvey_Stre
 	for {
 		record, err := stream.Recv()
 		if err != nil {
-			log.Error().Err(err).Msg("Error receiving WiFi OTA record")
+			if err.Error() != "EOF" {
+				log.Error().Err(err).Msg("Error receiving WiFi OTA record")
+			}
 			return err
 		}
 		log.Info().Msgf("Received WiFi OTA record: %v", record)
+		// Process the record as needed
+	}
+}
+
+// StreamBluetoothSurvey handles streaming of Bluetooth survey records
+func (s *WirelessSurveyServer) StreamBluetoothSurvey(stream pb.WirelessSurvey_StreamBluetoothSurveyServer) error {
+	for {
+		record, err := stream.Recv()
+		if err != nil {
+			if err.Error() != "EOF" {
+				log.Error().Err(err).Msg("Error receiving Bluetooth record")
+			}
+			return err
+		}
+		log.Info().Msgf("Received Bluetooth record: %v", record)
 		// Process the record as needed
 	}
 }
@@ -130,7 +176,9 @@ func (s *WirelessSurveyServer) StreamGnssSurvey(stream pb.WirelessSurvey_StreamG
 	for {
 		record, err := stream.Recv()
 		if err != nil {
-			log.Error().Err(err).Msg("Error receiving GNSS record")
+			if err.Error() != "EOF" {
+				log.Error().Err(err).Msg("Error receiving GNSS record")
+			}
 			return err
 		}
 		log.Info().Msgf("Received GNSS record: %v", record)
@@ -143,7 +191,9 @@ func (s *WirelessSurveyServer) StreamEnergyDetections(stream pb.WirelessSurvey_S
 	for {
 		record, err := stream.Recv()
 		if err != nil {
-			log.Error().Err(err).Msg("Error receiving Energy Detection record")
+			if err.Error() != "EOF" {
+				log.Error().Err(err).Msg("Error receiving Energy Detection record")
+			}
 			return err
 		}
 		log.Info().Msgf("Received Energy Detection record: %v", record)
@@ -156,7 +206,9 @@ func (s *WirelessSurveyServer) StreamSignalDetections(stream pb.WirelessSurvey_S
 	for {
 		record, err := stream.Recv()
 		if err != nil {
-			log.Error().Err(err).Msg("Error receiving Signal Detection record")
+			if err.Error() != "EOF" {
+				log.Error().Err(err).Msg("Error receiving Signal Detection record")
+			}
 			return err
 		}
 		log.Info().Msgf("Received Signal Detection record: %v", record)
@@ -169,7 +221,9 @@ func (s *WirelessSurveyServer) StreamLteRrc(stream pb.WirelessSurvey_StreamLteRr
 	for {
 		record, err := stream.Recv()
 		if err != nil {
-			log.Error().Err(err).Msg("Error receiving LTE RRC record")
+			if err.Error() != "EOF" {
+				log.Error().Err(err).Msg("Error receiving LTE RRC record")
+			}
 			return err
 		}
 		log.Info().Msgf("Received LTE RRC record: %v", record)
@@ -182,7 +236,9 @@ func (s *WirelessSurveyServer) StreamLteNas(stream pb.WirelessSurvey_StreamLteNa
 	for {
 		record, err := stream.Recv()
 		if err != nil {
-			log.Error().Err(err).Msg("Error receiving LTE NAS record")
+			if err.Error() != "EOF" {
+				log.Error().Err(err).Msg("Error receiving LTE NAS record")
+			}
 			return err
 		}
 		log.Info().Msgf("Received LTE NAS record: %v", record)
@@ -199,7 +255,9 @@ func (s *DeviceStatusServer) StatusUpdate(stream pb.DeviceStatus_StatusUpdateSer
 	for {
 		status, err := stream.Recv()
 		if err != nil {
-			log.Error().Err(err).Msg("Error receiving device status update")
+			if err.Error() != "EOF" {
+				log.Error().Err(err).Msg("Error receiving device status update")
+			}
 			return err
 		}
 		log.Info().Msgf("Received device status: %v", status)
