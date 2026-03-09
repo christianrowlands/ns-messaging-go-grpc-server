@@ -290,7 +290,7 @@ func (x *BluetoothRecordData) GetAddressType() AddressType {
 	if x != nil {
 		return x.AddressType
 	}
-	return AddressType_PUBLIC
+	return AddressType_UNKNOWN
 }
 
 func (x *BluetoothRecordData) GetDeviceClass() string {
